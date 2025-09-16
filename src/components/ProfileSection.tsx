@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { 
   User, 
   MapPin, 
@@ -68,10 +69,12 @@ const ProfileSection = () => {
                   </div>
                 </div>
 
-                <Button variant="outline" size="sm" className="w-full gap-2">
-                  <Edit className="w-4 h-4" />
-                  എഡിറ്റ് ചെയ്യുക | Edit Profile
-                </Button>
+                <Link to="/edit-profile">
+                  <Button variant="outline" size="sm" className="w-full gap-2">
+                    <Edit className="w-4 h-4" />
+                    എഡിറ്റ് ചെയ്യുക | Edit Profile
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
 
@@ -143,18 +146,24 @@ const ProfileSection = () => {
                 </div>
 
                 <div className="space-y-3">
-                  <Button variant="nature" size="sm" className="w-full justify-start">
-                    <FileText className="w-4 h-4 mr-2" />
-                    Loan Records
-                  </Button>
-                  <Button variant="nature" size="sm" className="w-full justify-start">
-                    <Calendar className="w-4 h-4 mr-2" />
-                    Activity Log
-                  </Button>
-                  <Button variant="nature" size="sm" className="w-full justify-start">
-                    <Award className="w-4 h-4 mr-2" />
-                    Schemes Applied
-                  </Button>
+                  <Link to="/loan-records">
+                    <Button variant="nature" size="sm" className="w-full justify-start">
+                      <FileText className="w-4 h-4 mr-2" />
+                      Loan Records
+                    </Button>
+                  </Link>
+                  <Link to="/activity-log">
+                    <Button variant="nature" size="sm" className="w-full justify-start">
+                      <Calendar className="w-4 h-4 mr-2" />
+                      Activity Log
+                    </Button>
+                  </Link>
+                  <Link to="/schemes-applied">
+                    <Button variant="nature" size="sm" className="w-full justify-start">
+                      <Award className="w-4 h-4 mr-2" />
+                      Schemes Applied
+                    </Button>
+                  </Link>
                 </div>
 
                 <div className="pt-2 text-center">

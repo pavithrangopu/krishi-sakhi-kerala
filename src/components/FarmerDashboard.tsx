@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { 
   Cloud, 
   Droplets, 
@@ -98,30 +99,38 @@ const FarmerDashboard = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <Button variant="nature" className="justify-start h-auto p-4">
-                    <div className="text-left">
-                      <p className="font-medium">വിത്ത് വിതരണം</p> 
-                      <p className="text-sm text-muted-foreground">Seed availability updates</p>
-                    </div>
-                  </Button>
-                  <Button variant="nature" className="justify-start h-auto p-4">
-                    <div className="text-left">
-                      <p className="font-medium">വിപണി വില</p>
-                      <p className="text-sm text-muted-foreground">Current market prices</p>
-                    </div>
-                  </Button>
-                  <Button variant="nature" className="justify-start h-auto p-4">
-                    <div className="text-left">
-                      <p className="font-medium">സബ്സിഡി സ്കീമുകൾ</p>
-                      <p className="text-sm text-muted-foreground">Government schemes</p>
-                    </div>
-                  </Button>
-                  <Button variant="nature" className="justify-start h-auto p-4">
-                    <div className="text-left">
-                      <p className="font-medium">കൃഷി കലണ്ടർ</p>
-                      <p className="text-sm text-muted-foreground">Crop calendar</p>
-                    </div>
-                  </Button>
+                  <Link to="/seed-availability">
+                    <Button variant="nature" className="justify-start h-auto p-4 w-full">
+                      <div className="text-left">
+                        <p className="font-medium">വിത്ത് വിതരണം</p> 
+                        <p className="text-sm text-muted-foreground">Seed availability updates</p>
+                      </div>
+                    </Button>
+                  </Link>
+                  <Link to="/market-prices">
+                    <Button variant="nature" className="justify-start h-auto p-4 w-full">
+                      <div className="text-left">
+                        <p className="font-medium">വിപണി വില</p>
+                        <p className="text-sm text-muted-foreground">Current market prices</p>
+                      </div>
+                    </Button>
+                  </Link>
+                  <Link to="/subsidies">
+                    <Button variant="nature" className="justify-start h-auto p-4 w-full">
+                      <div className="text-left">
+                        <p className="font-medium">സബ്സിഡി സ്കീമുകൾ</p>
+                        <p className="text-sm text-muted-foreground">Government schemes</p>
+                      </div>
+                    </Button>
+                  </Link>
+                  <Link to="/crop-calendar">
+                    <Button variant="nature" className="justify-start h-auto p-4 w-full">
+                      <div className="text-left">
+                        <p className="font-medium">കൃഷി കലണ്ടർ</p>
+                        <p className="text-sm text-muted-foreground">Crop calendar</p>
+                      </div>
+                    </Button>
+                  </Link>
                 </div>
               </CardContent>
             </Card>
@@ -135,9 +144,11 @@ const FarmerDashboard = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-center py-8">
-                  <Button variant="voice" size="icon-lg" className="mb-4">
-                    <Phone className="w-6 h-6" />
-                  </Button>
+                  <Link to="/voice-chat">
+                    <Button variant="voice" size="icon-lg" className="mb-4">
+                      <Phone className="w-6 h-6" />
+                    </Button>
+                  </Link>
                   <p className="text-sm text-muted-foreground mb-2">സംസാരിക്കാൻ ടാപ് ചെയ്യുക</p>
                   <p className="text-xs text-muted-foreground">Tap to speak in Malayalam</p>
                 </div>

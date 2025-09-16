@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Mic, Smartphone, Users, Leaf } from "lucide-react";
+import { Link } from "react-router-dom";
 import heroImage from "@/assets/kerala-farming-hero.jpg";
 
 const HeroSection = () => {
@@ -32,14 +33,18 @@ const HeroSection = () => {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button variant="hero" size="xl" className="gap-3">
-              <Mic className="w-5 h-5" />
-              സംസാരിക്കുക | Start Voice Chat
-            </Button>
-            <Button variant="harvest" size="xl" className="gap-3">
-              <Smartphone className="w-5 h-5" />
-              ആരംഭിക്കുക | Get Started
-            </Button>
+            <Link to="/voice-chat">
+              <Button variant="hero" size="xl" className="gap-3">
+                <Mic className="w-5 h-5" />
+                സംസാരിക്കുക | Start Voice Chat
+              </Button>
+            </Link>
+            <Link to="/dashboard">
+              <Button variant="harvest" size="xl" className="gap-3">
+                <Smartphone className="w-5 h-5" />
+                ആരംഭിക്കുക | Get Started
+              </Button>
+            </Link>
           </div>
 
           {/* Feature Cards */}
