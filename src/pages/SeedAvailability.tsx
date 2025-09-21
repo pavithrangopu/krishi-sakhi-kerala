@@ -1,26 +1,18 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Sprout, MapPin, Phone, CheckCircle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Sprout, MapPin, Phone, CheckCircle } from "lucide-react";
+import Header from "@/components/Header";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const SeedAvailability = () => {
+  const { t } = useLanguage();
+  
   return (
     <main className="min-h-screen bg-background">
+      <Header title={t('page.seedAvailability')} subtitle="Real-time seed stock information" />
+      
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Link to="/dashboard">
-            <Button variant="outline" size="icon">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">വിത്ത് വിതരണം | Seed Availability</h1>
-            <p className="text-muted-foreground">Current seed stock and availability in Kerala</p>
-          </div>
-        </div>
-
         <div className="max-w-4xl mx-auto space-y-6">
           {/* Available Seeds */}
           <Card className="shadow-soft border-border">
@@ -121,6 +113,16 @@ const SeedAvailability = () => {
                   </div>
                 </Button>
               </div>
+            </CardContent>
+          </Card>
+
+          {/* Coming Soon Message */}
+          <Card className="text-center py-6 bg-card/80 backdrop-blur-sm">
+            <CardContent>
+              <h3 className="text-lg font-semibold mb-2">{t('common.comingSoon')}</h3>
+              <p className="text-muted-foreground">
+                Advanced features for seed booking and delivery tracking {t('common.placeholder')}
+              </p>
             </CardContent>
           </Card>
         </div>

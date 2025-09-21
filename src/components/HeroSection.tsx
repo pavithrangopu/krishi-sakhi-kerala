@@ -2,9 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Mic, Smartphone, Users, Leaf } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 import heroImage from "@/assets/kerala-farming-hero.jpg";
 
 const HeroSection = () => {
+  const { t } = useLanguage();
+  
   return (
     <section className="relative min-h-screen flex items-center justify-center bg-gradient-nature">
       <div className="absolute inset-0 z-0">
@@ -21,13 +24,13 @@ const HeroSection = () => {
           {/* Main Header */}
           <div className="space-y-4">
             <h1 className="text-4xl md:text-6xl font-bold text-foreground">
-              കൃഷി സഖി
+              {t('app.title')}
             </h1>
             <p className="text-xl md:text-2xl text-muted-foreground font-medium">
-              Krishi Sakhi - Kerala's Prosper AI Farming Companion
+              {t('app.subtitle')}
             </p>
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              ശബ്ദത്തിലൂടെ കൃഷിയിൽ മാർഗ്ഗദർശനം നേടുക | Voice-powered AI assistant for Kerala farmers
+              {t('app.description')}
             </p>
           </div>
 
@@ -36,13 +39,13 @@ const HeroSection = () => {
             <Link to="/voice-chat">
               <Button variant="hero" size="xl" className="gap-3">
                 <Mic className="w-5 h-5" />
-                സംസാരിക്കുക | Start Voice Chat
+                {t('header.startVoiceChat')}
               </Button>
             </Link>
             <Link to="/dashboard">
               <Button variant="harvest" size="xl" className="gap-3">
                 <Smartphone className="w-5 h-5" />
-                ആരംഭിക്കുക | Get Started
+                {t('header.getStarted')}
               </Button>
             </Link>
           </div>
@@ -54,8 +57,8 @@ const HeroSection = () => {
                 <div className="p-3 rounded-full bg-primary/10">
                   <Mic className="w-8 h-8 text-primary" />
                 </div>
-                <h3 className="text-lg font-semibold">മലയാളത്തിൽ സംസാരിക്കുക</h3>
-                <p className="text-muted-foreground">Voice-first Malayalam assistant for all farmers</p>
+                <h3 className="text-lg font-semibold">{t('feature.voiceInMalayalam')}</h3>
+                <p className="text-muted-foreground">{t('feature.voiceDescription')}</p>
               </div>
             </Card>
 
@@ -64,8 +67,8 @@ const HeroSection = () => {
                 <div className="p-3 rounded-full bg-secondary/10">
                   <Leaf className="w-8 h-8 text-secondary" />
                 </div>
-                <h3 className="text-lg font-semibold">കൃഷി മാർഗ്ഗദർശനം</h3>
-                <p className="text-muted-foreground">AI-powered farming guidance & weather alerts</p>
+                <h3 className="text-lg font-semibold">{t('feature.farmingGuidance')}</h3>
+                <p className="text-muted-foreground">{t('feature.guidanceDescription')}</p>
               </div>
             </Card>
 
@@ -74,8 +77,8 @@ const HeroSection = () => {
                 <div className="p-3 rounded-full bg-accent/10">
                   <Users className="w-8 h-8 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold">കർഷക സമൂഹം</h3>
-                <p className="text-muted-foreground">Connect with Kerala farming community</p>
+                <h3 className="text-lg font-semibold">{t('feature.farmerCommunity')}</h3>
+                <p className="text-muted-foreground">{t('feature.communityDescription')}</p>
               </div>
             </Card>
           </div>

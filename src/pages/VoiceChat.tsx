@@ -1,25 +1,17 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Mic, Phone } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Mic, Phone } from "lucide-react";
+import Header from "@/components/Header";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const VoiceChat = () => {
+  const { t } = useLanguage();
+  
   return (
     <main className="min-h-screen bg-gradient-nature">
+      <Header title={t('page.voiceChat')} subtitle="AI-powered farming assistant" />
+      
       <div className="container mx-auto px-4 py-8">
-        {/* Header with back button */}
-        <div className="flex items-center gap-4 mb-8">
-          <Link to="/">
-            <Button variant="outline" size="icon">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">വോയ്സ് ചാറ്റ് | Voice Chat</h1>
-            <p className="text-muted-foreground">മലയാളത്തിൽ സംസാരിക്കുക | Speak in Malayalam</p>
-          </div>
-        </div>
-
         <div className="max-w-2xl mx-auto">
           <Card className="shadow-soft border-border">
             <CardHeader className="text-center">
@@ -52,6 +44,16 @@ const VoiceChat = () => {
                   "സബ്സിഡി എങ്ങനെ ലഭിക്കും?"
                 </Button>
               </div>
+              
+              {/* Coming Soon Message */}
+              <Card className="text-center py-6 bg-card/80 backdrop-blur-sm">
+                <CardContent>
+                  <h3 className="text-lg font-semibold mb-2">{t('common.comingSoon')}</h3>
+                  <p className="text-muted-foreground text-sm">
+                    {t('common.placeholder')}
+                  </p>
+                </CardContent>
+              </Card>
             </CardContent>
           </Card>
         </div>

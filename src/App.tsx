@@ -3,10 +3,12 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { LanguageProvider } from "@/contexts/LanguageContext";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import VoiceChat from "./pages/VoiceChat";
 import Dashboard from "./pages/Dashboard";
+import Community from "./pages/Community";
 import SeedAvailability from "./pages/SeedAvailability";
 import MarketPrices from "./pages/MarketPrices";
 import Subsidies from "./pages/Subsidies";
@@ -20,10 +22,11 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+    <LanguageProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/voice-chat" element={<VoiceChat />} />
@@ -36,11 +39,13 @@ const App = () => (
           <Route path="/loan-records" element={<LoanRecords />} />
           <Route path="/activity-log" element={<ActivityLog />} />
           <Route path="/schemes-applied" element={<SchemesApplied />} />
+          <Route path="/community" element={<Community />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-    </TooltipProvider>
+      </TooltipProvider>
+    </LanguageProvider>
   </QueryClientProvider>
 );
 
