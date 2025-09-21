@@ -44,6 +44,54 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
     // Load chat history and initialize suggestions
     loadChatHistory();
     initializeSuggestions();
+    
+    // Set up real-time subscription for new messages
+    const setupRealtime = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      const channel = supabase
+        .channel('chat-messages')
+        .on(
+          'postgres_changes',
+          {
+            event: 'INSERT',
+            schema: 'public',
+            table: 'chat_messages'
+          },
+          (payload) => {
+            // Only add if it's from the current user
+            if (user && payload.new.user_id === user.id) {
+              const newMessage: Message = {
+                id: `${payload.new.id}-bot`,
+                content: payload.new.response,
+                isBot: true,
+                timestamp: new Date(payload.new.created_at),
+                language: payload.new.language
+              };
+              
+              // Check if message already exists to avoid duplicates
+              setMessages(prev => {
+                const exists = prev.some(msg => msg.id === newMessage.id);
+                if (!exists) {
+                  return [...prev, newMessage];
+                }
+                return prev;
+              });
+            }
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    };
+
+    const cleanup = setupRealtime();
+    
+    return () => {
+      cleanup.then(fn => fn && fn());
+    };
   }, [language]);
 
   const initializeSuggestions = () => {
