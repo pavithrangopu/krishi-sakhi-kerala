@@ -17,7 +17,7 @@ const VoiceChat = () => {
             <CardHeader className="text-center">
               <CardTitle className="flex items-center justify-center gap-2">
                 <Mic className="w-6 h-6 text-primary" />
-                AI വോയ്സ് അസിസ്റ്റന്റ്
+                {t('voice.title')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -25,12 +25,12 @@ const VoiceChat = () => {
                 <Button variant="voice" size="lg" className="w-24 h-24 rounded-full mb-4">
                   <Phone className="w-8 h-8" />
                 </Button>
-                <p className="text-lg font-medium mb-2">സംസാരിക്കാൻ ടച്ച് ചെയ്ത് പിടിക്കുക</p>
-                <p className="text-muted-foreground">Touch and hold to speak</p>
+                <p className="text-lg font-medium mb-2">{t('voice.tapToSpeak')}</p>
+                <p className="text-muted-foreground">{t('voice.touchAndHold')}</p>
               </div>
 
               <div className="space-y-3">
-                <h3 className="font-medium text-center mb-4">സാമ്പിൾ ചോദ്യങ്ങൾ | Sample Questions:</h3>
+                <h3 className="font-medium text-center mb-4">{t('voice.sampleQuestions')}:</h3>
                 <Button variant="outline" className="w-full justify-start text-left">
                   "എന്റെ വയലിലെ വിള എങ്ങനെയുണ്ട്?"
                 </Button>

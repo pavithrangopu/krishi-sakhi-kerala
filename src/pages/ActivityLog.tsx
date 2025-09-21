@@ -1,65 +1,98 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Activity, Calendar, Sprout, Droplets, Bug, TrendingUp } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeft, Activity, Calendar, Sprout, Droplets, Bug, TrendingUp, CloudRain, Thermometer, AlertTriangle } from "lucide-react";
+import Header from "@/components/Header";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const ActivityLog = () => {
+  const { t } = useLanguage();
+  
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-gradient-nature">
+      <Header title={t('activity.title')} subtitle={t('activity.subtitle')} />
+      
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Link to="/dashboard">
-            <Button variant="outline" size="icon">
-              <ArrowLeft className="w-4 h-4" />
-            </Button>
-          </Link>
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">പ്രവർത്തന രേഖ | Activity Log</h1>
-            <p className="text-muted-foreground">Track all your farming activities and operations</p>
-          </div>
-        </div>
-
         <div className="max-w-4xl mx-auto space-y-6">
+          {/* Weather Alerts Section */}
+          <div className="grid md:grid-cols-3 gap-4">
+            <Card className="shadow-soft border-border bg-blue-50 dark:bg-blue-950/20">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <CloudRain className="w-5 h-5 text-blue-600" />
+                  <h3 className="font-medium text-blue-800 dark:text-blue-200">{t('activity.rainExpected')}</h3>
+                </div>
+                <p className="text-sm text-blue-700 dark:text-blue-300">80% chance tomorrow</p>
+                <Badge variant="outline" className="mt-2 bg-blue-100 text-blue-800 border-blue-200">
+                  {t('activity.noWateringNeeded')}
+                </Badge>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-soft border-border bg-orange-50 dark:bg-orange-950/20">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <Thermometer className="w-5 h-5 text-orange-600" />
+                  <h3 className="font-medium text-orange-800 dark:text-orange-200">{t('activity.temperatureAlert')}</h3>
+                </div>
+                <p className="text-sm text-orange-700 dark:text-orange-300">35°C expected</p>
+                <Badge variant="outline" className="mt-2 bg-orange-100 text-orange-800 border-orange-200">
+                  {t('activity.highTemp')}
+                </Badge>
+              </CardContent>
+            </Card>
+            
+            <Card className="shadow-soft border-border bg-green-50 dark:bg-green-950/20">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <Droplets className="w-5 h-5 text-green-600" />
+                  <h3 className="font-medium text-green-800 dark:text-green-200">{t('activity.soilMoisture')}</h3>
+                </div>
+                <p className="text-sm text-green-700 dark:text-green-300">65% moisture level</p>
+                <Badge variant="outline" className="mt-2 bg-green-100 text-green-800 border-green-200">
+                  {t('activity.optimal')}
+                </Badge>
+              </CardContent>
+            </Card>
+          </div>
+
           {/* Activity Summary */}
           <div className="grid md:grid-cols-4 gap-4">
             <Card className="shadow-soft border-border">
               <CardContent className="p-4 text-center">
-                <h3 className="font-medium text-sm text-muted-foreground mb-2">This Month</h3>
+                <h3 className="font-medium text-sm text-muted-foreground mb-2">{t('activity.thisMonth')}</h3>
                 <p className="text-2xl font-bold text-primary">24</p>
-                <p className="text-xs text-muted-foreground">Activities logged</p>
+                <p className="text-xs text-muted-foreground">{t('activity.activitiesLogged')}</p>
               </CardContent>
             </Card>
             <Card className="shadow-soft border-border">
               <CardContent className="p-4 text-center">
-                <h3 className="font-medium text-sm text-muted-foreground mb-2">Last Activity</h3>
-                <p className="text-lg font-bold text-secondary">Irrigation</p>
+                <h3 className="font-medium text-sm text-muted-foreground mb-2">{t('activity.lastActivity')}</h3>
+                <p className="text-lg font-bold text-secondary">{t('activity.irrigation')}</p>
                 <p className="text-xs text-muted-foreground">2 days ago</p>
               </CardContent>
             </Card>
             <Card className="shadow-soft border-border">
               <CardContent className="p-4 text-center">
-                <h3 className="font-medium text-sm text-muted-foreground mb-2">Crops Monitored</h3>
+                <h3 className="font-medium text-sm text-muted-foreground mb-2">{t('activity.cropsMonitored')}</h3>
                 <p className="text-2xl font-bold text-accent">3</p>
-                <p className="text-xs text-muted-foreground">Rice, Coconut, Spices</p>
+                <p className="text-xs text-muted-foreground">{t('profile.rice')}, {t('profile.coconut')}, {t('profile.spices')}</p>
               </CardContent>
             </Card>
             <Card className="shadow-soft border-border">
               <CardContent className="p-4 text-center">
-                <h3 className="font-medium text-sm text-muted-foreground mb-2">Completion Rate</h3>
+                <h3 className="font-medium text-sm text-muted-foreground mb-2">{t('activity.completionRate')}</h3>
                 <p className="text-2xl font-bold text-green-600">92%</p>
                 <p className="text-xs text-muted-foreground">Planned activities</p>
               </CardContent>
             </Card>
           </div>
 
-          {/* Recent Activities */}
           <Card className="shadow-soft border-border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Activity className="w-5 h-5 text-primary" />
-                Recent Activities
+                {t('activity.recentActivities')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -67,48 +100,39 @@ const ActivityLog = () => {
                 {[
                   {
                     date: "Dec 14, 2024",
-                    activity: "ജലസേചനം | Irrigation",
+                    activity: t('activity.irrigation'),
                     crop: "Rice Field A",
                     icon: Droplets,
-                    status: "Completed",
+                    status: t('common.completed'),
                     details: "Applied 2 hours of drip irrigation",
                     color: "blue"
                   },
                   {
                     date: "Dec 12, 2024",
-                    activity: "കീടനാശിനി | Pest Control",
+                    activity: t('activity.pestControl'),
                     crop: "Coconut Grove",
                     icon: Bug,
-                    status: "Completed",
+                    status: t('common.completed'),
                     details: "Applied organic neem spray for red palm weevil",
                     color: "red"
                   },
                   {
                     date: "Dec 10, 2024",
-                    activity: "വളം പ്രയോഗിക്കൽ | Fertilizer Application",
+                    activity: t('activity.fertilizer'),
                     crop: "Spice Garden",
                     icon: Sprout,
-                    status: "Completed",
+                    status: t('common.completed'),
                     details: "Applied organic compost 50kg",
                     color: "green"
                   },
                   {
                     date: "Dec 8, 2024",
-                    activity: "വിത്ത് വിതയ്ക്കൽ | Sowing",
+                    activity: t('activity.sowing'),
                     crop: "Rice Field B",
                     icon: Sprout,
-                    status: "Completed",
+                    status: t('common.completed'),
                     details: "Sowed Jyothi variety paddy seeds",
                     color: "green"
-                  },
-                  {
-                    date: "Dec 6, 2024",
-                    activity: "വിള നിരീക്ഷണം | Crop Monitoring",
-                    crop: "All Fields",
-                    icon: TrendingUp,
-                    status: "Completed",
-                    details: "Weekly health assessment and growth tracking",
-                    color: "purple"
                   }
                 ].map((item, index) => (
                   <div key={index} className="flex items-start gap-4 p-4 border rounded-lg hover:bg-muted/20 transition-colors">
@@ -163,12 +187,11 @@ const ActivityLog = () => {
             </CardContent>
           </Card>
 
-          {/* Upcoming Activities */}
           <Card className="shadow-soft border-border">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Calendar className="w-5 h-5 text-primary" />
-                Upcoming Activities
+                {t('activity.upcomingActivities')}
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -177,7 +200,7 @@ const ActivityLog = () => {
                   <div className="flex items-center gap-3">
                     <Droplets className="w-5 h-5 text-blue-600" />
                     <div>
-                      <p className="font-medium">Irrigation - Rice Field A</p>
+                      <p className="font-medium">{t('activity.irrigation')} - Rice Field A</p>
                       <p className="text-sm text-muted-foreground">Due: Tomorrow</p>
                     </div>
                   </div>
@@ -192,6 +215,45 @@ const ActivityLog = () => {
                     </div>
                   </div>
                   <Button size="sm" variant="outline">Schedule</Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* AI Crop Suggestions */}
+          <Card className="shadow-soft border-border bg-gradient-to-r from-primary/5 to-secondary/5">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sprout className="w-5 h-5 text-primary" />
+                {t('ai.cropSuggestions')}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="p-4 border rounded-lg bg-green-50 border-green-200">
+                <div className="flex items-start gap-3">
+                  <div className="p-2 rounded-lg bg-green-100">
+                    <Sprout className="w-5 h-5 text-green-600" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="font-medium text-green-800">{t('ai.schemeBasedSuggestion')}</h4>
+                    <p className="text-sm text-green-700 mt-1">{t('ai.groundnutSubsidy')}</p>
+                    <Badge variant="outline" className="mt-2 bg-green-100 text-green-800 border-green-200">
+                      Government Scheme Available
+                    </Badge>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-4 border rounded-lg">
+                <h4 className="font-medium mb-2">{t('ai.soilQuality')}</h4>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm">{t('ai.soilHealth')}</span>
+                  <Badge variant="outline" className="bg-green-100 text-green-800 border-green-200">
+                    {t('ai.excellent')}
+                  </Badge>
+                </div>
+                <div className="mt-2 text-xs text-muted-foreground">
+                  pH: 6.8 | Organic Matter: 3.2% | NPK: 280-45-180
                 </div>
               </div>
             </CardContent>

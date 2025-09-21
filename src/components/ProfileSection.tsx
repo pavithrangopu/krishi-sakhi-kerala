@@ -12,10 +12,13 @@ import {
   Award,
   Edit
 } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import farmerImage from "@/assets/farmer-with-phone.jpg";
 import cropsImage from "@/assets/kerala-crops.jpg";
 
 const ProfileSection = () => {
+  const { t } = useLanguage();
+  
   return (
     <section className="py-16 bg-gradient-nature">
       <div className="container mx-auto px-4">
@@ -23,10 +26,10 @@ const ProfileSection = () => {
           {/* Header */}
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              കർഷക പ്രൊഫൈൽ | Farmer Profile
+              {t('profile.title')}
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Smart profiling for personalized farming guidance and digital record keeping
+              {t('profile.subtitle')}
             </p>
           </div>
 
@@ -36,7 +39,7 @@ const ProfileSection = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="w-5 h-5 text-primary" />
-                  വ്യക്തിഗത വിവരങ്ങൾ | Personal Info
+                  {t('profile.personalInfo')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -72,7 +75,7 @@ const ProfileSection = () => {
                 <Link to="/edit-profile">
                   <Button variant="outline" size="sm" className="w-full gap-2">
                     <Edit className="w-4 h-4" />
-                    എഡിറ്റ് ചെയ്യുക | Edit Profile
+                    {t('profile.editProfile')}
                   </Button>
                 </Link>
               </CardContent>
@@ -83,32 +86,32 @@ const ProfileSection = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Sprout className="w-5 h-5 text-primary" />
-                  ഭൂമി & വിള വിശദാംശങ്ങൾ | Land & Crops
+                  {t('profile.landCrops')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 rounded-lg bg-muted/50">
                     <p className="text-2xl font-bold text-primary">2.5</p>
-                    <p className="text-xs text-muted-foreground">ഏക്കർ | Acres</p>
+                    <p className="text-xs text-muted-foreground">{t('profile.acres')}</p>
                   </div>
                   <div className="text-center p-3 rounded-lg bg-muted/50">
                     <p className="text-2xl font-bold text-secondary">3</p>
-                    <p className="text-xs text-muted-foreground">വിളകൾ | Crops</p>
+                    <p className="text-xs text-muted-foreground">{t('profile.crops')}</p>
                   </div>
                 </div>
 
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">നെൽ | Rice</span>
+                    <span className="text-sm font-medium">{t('profile.rice')}</span>
                     <span className="text-sm text-muted-foreground">1.5 acres</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">തേങ്ങ | Coconut</span>
+                    <span className="text-sm font-medium">{t('profile.coconut')}</span>
                     <span className="text-sm text-muted-foreground">0.8 acres</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">സുഗന്ധവ്യഞ്ജനങ്ങൾ | Spices</span>
+                    <span className="text-sm font-medium">{t('profile.spices')}</span>
                     <span className="text-sm text-muted-foreground">0.2 acres</span>
                   </div>
                 </div>
@@ -128,20 +131,18 @@ const ProfileSection = () => {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-primary" />
-                  ഡിജിറ്റൽ രേഖകൾ | Digital Records
+                  {t('profile.digitalRecords')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center p-3 rounded-lg bg-accent/10">
                     <Droplets className="w-6 h-6 text-accent mx-auto mb-1" />
-                    <p className="text-sm font-medium">ജലസേചനം</p>
-                    <p className="text-xs text-muted-foreground">Irrigation</p>
+                    <p className="text-sm font-medium">{t('profile.irrigation')}</p>
                   </div>
                   <div className="text-center p-3 rounded-lg bg-secondary/10">
                     <Award className="w-6 h-6 text-secondary mx-auto mb-1" />
-                    <p className="text-sm font-medium">സർട്ടിഫിക്കേഷൻ</p>
-                    <p className="text-xs text-muted-foreground">Certificates</p>
+                    <p className="text-sm font-medium">{t('profile.certification')}</p>
                   </div>
                 </div>
 
@@ -149,19 +150,19 @@ const ProfileSection = () => {
                   <Link to="/loan-records">
                     <Button variant="nature" size="sm" className="w-full justify-start">
                       <FileText className="w-4 h-4 mr-2" />
-                      Loan Records
+                      {t('page.loanRecords')}
                     </Button>
                   </Link>
                   <Link to="/activity-log">
                     <Button variant="nature" size="sm" className="w-full justify-start">
                       <Calendar className="w-4 h-4 mr-2" />
-                      Activity Log
+                      {t('page.activityLog')}
                     </Button>
                   </Link>
                   <Link to="/schemes-applied">
                     <Button variant="nature" size="sm" className="w-full justify-start">
                       <Award className="w-4 h-4 mr-2" />
-                      Schemes Applied
+                      {t('page.schemesApplied')}
                     </Button>
                   </Link>
                 </div>
