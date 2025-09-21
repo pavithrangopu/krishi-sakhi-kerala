@@ -4,10 +4,11 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/components/ui/use-toast";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
-import { Send, Mic, MicOff, Bot, User, Volume2 } from "lucide-react";
+import { Send, Mic, MicOff, Bot, User, Volume2, Lightbulb, RefreshCw } from "lucide-react";
 
 interface Message {
   id: string;
@@ -27,6 +28,8 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isInitialized, setIsInitialized] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -38,9 +41,36 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
   }, [messages]);
 
   useEffect(() => {
-    // Load chat history
+    // Load chat history and initialize suggestions
     loadChatHistory();
-  }, []);
+    initializeSuggestions();
+  }, [language]);
+
+  const initializeSuggestions = () => {
+    const defaultSuggestions = {
+      malayalam: [
+        'ഇന്നത്തെ കാലാവസ്ഥ എങ്ങനെയാണ്?',
+        'നെല്ലിന് എന്ത് വളം നൽകണം?',
+        'കീടങ്ങളെ എങ്ങനെ നിയന്ത്രിക്കാം?',
+        'സർക്കാർ പദ്ധതികൾ എന്തൊക്കെ?'
+      ],
+      english: [
+        'What is today\'s weather forecast?',
+        'Which fertilizer is best for rice?',
+        'How to control pest attacks?',
+        'What government schemes are available?'
+      ],
+      tamil: [
+        'இன்றைய வானிலை எப்படி இருക்கும்?',
+        'அரிசிக்கு எந்த உரம் சிறந்தது?',
+        'பூச்சித் தாக்குதலை எப்படி கட்டுப்படுத்துவது?',
+        'என்ன அரசு திட்டங்கள் கிடைக்கின்றன?'
+      ]
+    };
+    
+    setSuggestions(defaultSuggestions[language as keyof typeof defaultSuggestions] || defaultSuggestions.english);
+    setIsInitialized(true);
+  };
 
   const loadChatHistory = async () => {
     try {
@@ -139,30 +169,33 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
   };
 
   const generateBotResponse = async (message: string, lang: string): Promise<string> => {
-    // Mock AI responses based on farming context and language
-    const responses = {
-      malayalam: [
-        "നിങ്ങളുടെ കൃഷിയെക്കുറിച്ച് കൂടുതൽ പറയാമോ? ഞാൻ സഹായിക്കാം.",
-        "കൃഷിയിൽ പുതിയ സാങ്കേതികവിദ്യകൾ ഉപയോഗിക്കുന്നത് വളരെ നല്ലതാണ്.",
-        "കാലാവസ്ഥയെ അടിസ്ഥാനമാക്കി വിത്ത് നടൽ ആസൂത്രണം ചെയ്യുന്നത് നല്ലതാണ്.",
-        "മണ്ണിന്റെ ഗുണനിലവാരം പരിശോധിക്കേണ്ടത് വളരെ പ്രധാനമാണ്."
-      ],
-      english: [
-        "I'm here to help with your farming needs. What would you like to know?",
-        "Modern farming techniques can significantly improve your crop yield.",
-        "Weather-based planning is crucial for successful farming seasons.",
-        "Soil quality testing is essential for optimal crop growth."
-      ],
-      tamil: [
-        "உங்கள் விவசாயத்தைப் பற்றி மேலும் சொல்லுங்கள். நான் உதவுகிறேன்.",
-        "நவீன விவசாய நுட்பங்களைப் பயன்படுத்துவது நல்லது.",
-        "வானிலையை அடிப்படையாகக் கொண்ட திட்டமிடல் முக்கியம்.",
-        "மண்ணின் தரத்தை சரிபார்ப்பது அவசியம்."
-      ]
-    };
+    try {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (!user) throw new Error('User not authenticated');
 
-    const langResponses = responses[lang as keyof typeof responses] || responses.english;
-    return langResponses[Math.floor(Math.random() * langResponses.length)];
+      const response = await supabase.functions.invoke('farming-chat', {
+        body: {
+          message,
+          language: lang,
+          userId: user.id
+        }
+      });
+
+      if (response.error) {
+        throw new Error(response.error.message || 'Failed to get AI response');
+      }
+
+      return response.data.response || 'Sorry, I could not process your request.';
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      // Fallback to basic responses
+      const fallbackResponses = {
+        malayalam: "ക്ഷമിക്കണം, ഇപ്പോൾ എനിക്ക് മറുപടി നൽകാൻ കഴിയുന്നില്ല. പിന്നീട് വീണ്ടും ശ്രമിക്കുക.",
+        english: "Sorry, I'm unable to respond right now. Please try again later.",
+        tamil: "மன்னிக்கவும், என்னால் இப்போது பதிலளிக்க முடியவில്லை. பின்னர் மீண்டும் முயற்சிக்கவும்."
+      };
+      return fallbackResponses[lang as keyof typeof fallbackResponses] || fallbackResponses.english;
+    }
   };
 
   const speakText = async (text: string, lang: string) => {
@@ -241,10 +274,34 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
       <CardContent className="flex-1 flex flex-col p-0">
         <ScrollArea className="flex-1 px-4">
           <div className="space-y-4 pb-4">
-            {messages.length === 0 && (
-              <div className="text-center text-muted-foreground py-8">
+        {messages.length === 0 && isInitialized && (
+              <div className="text-center text-muted-foreground py-6">
                 <Bot className="h-12 w-12 mx-auto mb-4 text-emerald-500" />
-                <p>{t('chatWelcome')}</p>
+                <p className="mb-4">{t('chatWelcome')}</p>
+                
+                {/* Quick suggestion chips */}
+                <div className="space-y-2">
+                  <div className="flex items-center justify-center gap-2 mb-3">
+                    <Lightbulb className="h-4 w-4 text-emerald-600" />
+                    <span className="text-sm font-medium text-emerald-700">
+                      {language === 'malayalam' ? 'നിർദ്ദേശങ്ങൾ' : 
+                       language === 'tamil' ? 'பரிந்துரைகள்' : 
+                       'Quick Suggestions'}
+                    </span>
+                  </div>
+                  <div className="flex flex-wrap gap-2 justify-center max-w-md mx-auto">
+                    {suggestions.slice(0, 4).map((suggestion, index) => (
+                      <Badge 
+                        key={index}
+                        variant="secondary" 
+                        className="cursor-pointer hover:bg-emerald-100 text-xs px-3 py-1"
+                        onClick={() => sendMessage(suggestion)}
+                      >
+                        {suggestion}
+                      </Badge>
+                    ))}
+                  </div>
+                </div>
               </div>
             )}
             {messages.map((message, index) => (
@@ -312,13 +369,40 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
           </div>
         </ScrollArea>
         
-        <div className="p-4 border-t">
+        <div className="p-4 border-t space-y-3">
+          {/* Smart suggestions when there are messages */}
+          {messages.length > 0 && suggestions.length > 0 && (
+            <div className="flex gap-2 overflow-x-auto pb-2">
+              <Button
+                size="sm"
+                variant="ghost"
+                onClick={initializeSuggestions}
+                className="text-emerald-600 hover:text-emerald-700 whitespace-nowrap"
+              >
+                <RefreshCw className="h-3 w-3 mr-1" />
+                {language === 'malayalam' ? 'പുതിയ നിർദ്ദേശങ്ങൾ' : 
+                 language === 'tamil' ? 'புதிய பரிந்துரைகள்' : 
+                 'New suggestions'}
+              </Button>
+              {suggestions.slice(0, 2).map((suggestion, index) => (
+                <Badge 
+                  key={index}
+                  variant="outline" 
+                  className="cursor-pointer hover:bg-emerald-50 text-xs whitespace-nowrap"
+                  onClick={() => sendMessage(suggestion)}
+                >
+                  {suggestion.length > 30 ? suggestion.substring(0, 30) + '...' : suggestion}
+                </Badge>
+              ))}
+            </div>
+          )}
+          
           <div className="flex gap-2">
             <Input
               placeholder={t('typeMessage')}
               value={inputMessage}
               onChange={(e) => setInputMessage(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && sendMessage(inputMessage)}
+              onKeyPress={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage(inputMessage)}
               disabled={isLoading}
               className="flex-1"
             />
@@ -327,6 +411,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
               onClick={isRecording ? stopRecording : startRecording}
               variant={isRecording ? "destructive" : "outline"}
               disabled={isLoading}
+              title={isRecording ? 'Stop recording' : 'Start voice message'}
             >
               {isRecording ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             </Button>
@@ -335,6 +420,7 @@ const ChatBot: React.FC<ChatBotProps> = ({ className }) => {
               onClick={() => sendMessage(inputMessage)}
               disabled={isLoading || !inputMessage.trim()}
               className="bg-emerald-600 hover:bg-emerald-700"
+              title="Send message"
             >
               <Send className="h-4 w-4" />
             </Button>
