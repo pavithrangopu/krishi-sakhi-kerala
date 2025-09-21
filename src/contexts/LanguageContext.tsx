@@ -17,7 +17,15 @@ const translations = {
     'header.dashboard': 'ഡാഷ്‌ബോർഡ്',
     'header.voiceChat': 'സംസാരിക്കുക',
     'header.startVoiceChat': 'സംസാരിക്കുക',
-    'header.getStarted': 'ആരംഭിക്കുക',
+'header.getStarted': 'ആരംഭിക്കുക',
+    
+    // Auth translations
+    welcome: 'സ്വാഗതം',
+    farmer: 'കർഷകൻ',
+    farmingDashboard: 'കൃഷി ഡാഷ്‌ബോർഡ്',
+    farmingAssistant: 'കൃഷി സഹായി',
+    chat: 'ചാറ്റ്',
+    weather: 'കാലാവസ്ഥ',
     
     // Features
     'feature.voiceInMalayalam': 'മലയാളത്തിൽ സംസാരിക്കുക',
