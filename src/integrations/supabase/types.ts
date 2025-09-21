@@ -14,7 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      chat_messages: {
+        Row: {
+          created_at: string
+          id: string
+          language: string | null
+          message: string
+          message_type: string | null
+          response: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          language?: string | null
+          message: string
+          message_type?: string | null
+          response?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          language?: string | null
+          message?: string
+          message_type?: string | null
+          response?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          farm_location: string | null
+          farm_size_acres: number | null
+          farmer_name: string | null
+          id: string
+          language_preference: string | null
+          phone_number: string | null
+          primary_crops: string[] | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          farm_location?: string | null
+          farm_size_acres?: number | null
+          farmer_name?: string | null
+          id?: string
+          language_preference?: string | null
+          phone_number?: string | null
+          primary_crops?: string[] | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          farm_location?: string | null
+          farm_size_acres?: number | null
+          farmer_name?: string | null
+          id?: string
+          language_preference?: string | null
+          phone_number?: string | null
+          primary_crops?: string[] | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
